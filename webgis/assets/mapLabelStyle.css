@@ -1,0 +1,36 @@
+#map{
+    padding:5 5;
+    margin:0 0;
+    width:90vw;
+    height:60vh;
+}
+.ol-attribution.ol-uncollapsible {
+    bottom: 12px;
+    background: transparent
+}
+.ol-attribution ul {
+    font-size: 12px;
+    font-family: sans-serif;
+}
+.ol-attribution a {
+    color: black;
+}
+.copyrightDiv {
+    display: inline-block;
+    height: 1rem;
+    line-height: 1rem;
+    position: absolute;
+    top: 50%;
+    bottom: 5px;
+    right:  40px;
+    margin: 0 5px 0 0;
+    padding: 0 4px;
+    font-family:  sans-serif;
+    font-size: 12px;
+    background-color: rgba( 255, 255, 255, 0.7 );
+    color: #333;
+    text-align: left;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    z-index: 1;
+}
