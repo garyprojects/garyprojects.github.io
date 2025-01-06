@@ -2,21 +2,88 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>ArcGIS-Map-viewer</title>
-    
-    <link rel="stylesheet" href="https://js.arcgis.com/4.29/esri/themes/light/main.css" />
-    <script src="https://js.arcgis.com/4.29/"></script>
+    <title>RoadDefect-GIS platform</title>
+    <!--    Bootstrap Connect   -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
 
-    <link rel="stylesheet" href="arcgisStyle.css">
-    <script type="module" src="arcgisScript.js"></script>
-    
-    
+    <!--    3D Model Connect -->
+    <script type="module" src="https://ajax.googleapis.com/ajax/libs/model-viewer/4.0.0/model-viewer.min.js"></script>
+    <script async src="https://ga.jspm.io/npm:es-module-shims@1.7.1/dist/es-module-shims.js"></script>
+
+    <!--    Hong Kong Map Connect -->
+    <script src="https://cdn.jsdelivr.net/npm/ol@v10.2.1/dist/ol.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/ol@v10.2.1/ol.css">
+    <link rel="stylesheet" href="/static/css/mapLabelStyle.css">
+    <script type="module" src="/static/scripts/mapLabelScript.js"></script>
+
+    <!--    Street Map Connect -->
+    <link rel="stylesheet" href="streetscapeStyle.css">
+    <script type="module" src="streetscapeScript.js"></script>
+
+
+    <!--    CSS Connect -->
+    <link rel="stylesheet" href="/static/css/style.css">
 </head>
 
 <body>
-    <!--    Map viewer   -->
-    <p>Hong Kong Map:</p>
-    <div id="viewDiv"></div>
+
+    <div class="container-fluid">
+        <h1>Road Defect-GIS Dashboard</h1>
+
+        <!-- Tab Navigation -->
+        <div class="nav nav-tabs">
+            <!-- Button 1-->
+            <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#menu1" aria-selected="true">
+                Live streaming
+            </button>
+            <!-- Button 2-->
+            <button class="nav-link" data-bs-toggle="tab" data-bs-target="#menu2" aria-selected="false">
+                2D Visualisation Map
+            </button>
+            <!-- Button 3-->
+            <!--button class="nav-link" data-bs-toggle="tab" data-bs-target="#menu3" aria-selected="false">
+                3D Street Map
+            </button-->
+
+            <!-- Button 4-->
+            <button class="nav-link" data-bs-toggle="tab" data-bs-target="#menu4" aria-selected="false">
+                3D Model
+            </button>
+        </div>
+
+        <div class="tab-content">
+            <!-- First content -->
+            <div class="tab-pane fade show active" id="menu1">
+                <h3>Live Streaming Video</h3>
+
+            </div>
+
+            <!-- Second content -->
+            <div class="tab-pane fade" id="menu2">
+                <h3>Road Twin</h3>
+                <div id="map" class="map"></div>
+
+            </div>
+
+            <!-- Third content -->
+            <!--div class="tab-pane fade" id="menu3">
+                <h3>Road Twin</h3>
+
+            </div-->
+
+
+            <!-- Forth content -->
+            <div class="tab-pane fade" id="menu4">
+                <h3>3D Modeling</h3>
+                <model-viewer src="./assets/Road.glb" auto-rotate alt="road" camera-controls></model-viewer>
+            </div>
+
+        </div>
+
+    </div>
+
+
 
 </body>
 </html>
