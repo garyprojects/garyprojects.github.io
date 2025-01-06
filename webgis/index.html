@@ -30,7 +30,10 @@
 <body>
 
     <div class="container-fluid">
-        <h1>Road Defect-GIS Dashboard</h1>
+        <div>
+            <h1><img src="assets/logo.jpg" alt="logo" width="80" height="auto">    Road Defect-GIS Dashboard</h1>
+        </div>
+        
 
         <!-- Tab Navigation -->
         <div class="nav nav-tabs">
@@ -43,9 +46,9 @@
                 2D Visualisation Map
             </button>
             <!-- Button 3-->
-            <!--button class="nav-link" data-bs-toggle="tab" data-bs-target="#menu3" aria-selected="false">
-                3D Street Map
-            </button-->
+            <button class="nav-link" data-bs-toggle="tab" data-bs-target="#menu3" aria-selected="false">
+                Report defect
+            </button>
 
             <!-- Button 4-->
             <button class="nav-link" data-bs-toggle="tab" data-bs-target="#menu4" aria-selected="false">
@@ -74,10 +77,81 @@
             </div>
 
             <!-- Third content -->
-            <!--div class="tab-pane fade" id="menu3">
-                <h3>Road Twin</h3>
-
-            </div-->
+            <div id="menu3" class="tab-pane fade">
+                <div class="third-content">
+                  <h2>Report Road Defect</h2>
+                  <form id="report-defect-form">
+                    <div class="row">
+                      <div class="col-md-6">
+                        <label for="location">Share Your GPS Location:</label>
+                        <button id="get-location-btn">Get Location</button>
+                        <input type="text" id="location" readonly>
+                      </div>
+                      <div class="col-md-6">
+                        <div id="map-container" style="width: 300px; height: 200px;"></div>
+                      </div>
+                    </div>
+                    <div class="row">
+                      <div class="col-md-6">
+                        <label for="photo">Take a Photo of the Road Defect:</label>
+                        <input type="file" id="photo" accept="image/*" capture="camera">
+                        <img id="preview-photo" style="width: 100px; height: 100px;">
+                      </div>
+                      <div class="col-md-6">
+                        <!-- empty column for spacing -->
+                      </div>
+                    </div>
+                    <button id="submit-report-btn">Submit Report</button>
+                  </form>
+              
+                  <script>
+                    // Get user's GPS location
+                    document.getElementById('get-location-btn').addEventListener('click', () => {
+                      navigator.geolocation.getCurrentPosition(position => {
+                        const location = `${position.coords.latitude}, ${position.coords.longitude}`;
+                        document.getElementById('location').value = location;
+                        // Update map with location
+                        const mapContainer = document.getElementById('map-container');
+                        const map = new google.maps.Map(mapContainer, {
+                          center: { lat: position.coords.latitude, lng: position.coords.longitude },
+                          zoom: 15
+                        });
+                        const marker = new google.maps.Marker({
+                          position: { lat: position.coords.latitude, lng: position.coords.longitude },
+                          map: map
+                        });
+                      });
+                    });
+              
+                    // Preview uploaded photo
+                    document.getElementById('photo').addEventListener('change', () => {
+                      const file = document.getElementById('photo').files[0];
+                      const reader = new FileReader();
+                      reader.onload = () => {
+                        document.getElementById('preview-photo').src = reader.result;
+                      };
+                      reader.readAsDataURL(file);
+                    });
+              
+                    // Handle form submission
+                    document.getElementById('report-defect-form').addEventListener('submit', e => {
+                      e.preventDefault();
+                      const location = document.getElementById('location').value;
+                      const photo = document.getElementById('photo').files[0];
+              
+                      // Send data to server-side API to store report
+                      fetch('/report-defect', {
+                        method: 'POST',
+                        body: JSON.stringify({ location, photo }),
+                        headers: { 'Content-Type': 'application/json' }
+                      })
+                      .then(response => response.json())
+                      .then(data => console.log(data))
+                      .catch(error => console.error(error));
+                    });
+                  </script>
+                </div>
+              </div>
 
 
             <!-- Forth content -->
