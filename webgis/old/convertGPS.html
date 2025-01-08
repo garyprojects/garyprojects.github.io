@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>EPSG:2326 to EPSG:4326 Converter</title>
+  <script src="https://cdn.jsdelivr.net/npm/proj4@2.7.5/dist/proj4.js"></script>
+</head>
+<body>
+  <input type="file" id="fileInput" accept=".json">
+  <button id="convertButton">Convert</button>
+  <div id="output"></div>
+
+  <script>
+    // Define the EPSG:2326 and EPSG:4326 projections
+    const epsg2326 = new proj4.Proj('EPSG:2326');
+    const epsg4326 = new proj4.Proj('EPSG:4326');
+
+    // Function to convert coordinates from EPSG:2326 to EPSG:4326
+    function convertCoordinates(coords) {
+      return proj4(epsg2326, epsg4326, coords);
+    }
+
+    // Function to convert the uploaded JSON file
+    function convertJsonFile(file) {
+      const reader = new FileReader();
+      reader.onload = (event) => {
+        const jsonData = JSON.parse(event.target.result);
+        const convertedFeatures = jsonData.features.map((feature) => {
+          const convertedCoords = convertCoordinates(feature.geometry.coordinates);
+          return {
+            ...feature,
+            geometry: {
+              ...feature.geometry,
+              coordinates: convertedCoords,
+            },
+          };
+        });
+        const convertedJsonData = {
+          ...jsonData,
+          features: convertedFeatures,
+        };
+        const outputJson = JSON.stringify(convertedJsonData, null, 2);
+        document.getElementById('output').innerHTML = `<pre>${outputJson}</pre>`;
+      };
+      reader.readAsText(file);
+    }
+
+    // Event listener for the convert button
+    document.getElementById('convertButton').addEventListener('click', () => {
+      const fileInput = document.getElementById('fileInput');
+      if (fileInput.files.length > 0) {
+        const file = fileInput.files[0];
+        convertJsonFile(file);
+      }
+    });
+  </script>
+</body>
+</html>

@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Road Maintance in Hong Kong</title>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
+    <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.20.0/axios.js"></script>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/proj4js/2.7.4/proj4.js"></script>
+
+    <style>
+        html,
+        body {
+            height: 100%;
+            margin: 0;
+            padding: 0;
+        }
+
+        #lmap {
+            width: 100%;
+            height: 100vh;
+        }
+    </style>
+
+</head>
+
+<body>
+    <div id="lmap"></div>
+    <script>
+        const lMap = L.map(document.getElementById("lmap"), {
+            center: [22.36537995538808, 114.08646076546336],
+            zoom: 12,
+            crs: L.CRS.EPSG3857,
+        });
+        L.tileLayer(
+            "https://api.mapbox.com/styles/v1/mapbox/streets-v11/tiles/{z}/{x}/{y}?access_token=pk.eyJ1IjoicGVycnlsaWFvIiwiYSI6ImNrdGVkYWJueTJveWEycm84NzZrMXJyZjAifQ.s8EyAc5U3E1c7wcN1qlE9w",
+            {
+                maxZoom: 18,
+                attribution:
+                    '<a href="https://www.vtc.edu.hk/vb">YCI Student Project</a>',
+                id: "mapbox.streets",
+            }
+        ).addTo(lMap);
+
+
+
+    </script>
+
+    <script src="./try.js"></script>
+
+    
+
+
+</body>
+
+</html>

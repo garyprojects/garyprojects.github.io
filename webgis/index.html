@@ -25,6 +25,30 @@
 
     <!--    CSS Connect -->
     <link rel="stylesheet" href="./assets/style.css">
+
+    <!--    Leaflet Map -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
+    <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.20.0/axios.js"></script>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/proj4js/2.7.4/proj4.js"></script>
+
+    <style>
+        html,
+        body {
+            height: 100%;
+            margin: 0;
+            padding: 0;
+        }
+
+        #lmap {
+            width: 100%;
+            height: 70vh;
+        }
+    </style>
+
+
+
 </head>
 
 <body>
@@ -42,12 +66,12 @@
                 Live streaming
             </button>
             <!-- Button 2-->
-            <button class="nav-link" data-bs-toggle="tab" data-bs-target="#menu2" aria-selected="false">
+            <button class="nav-link" target="_blank" onclick="window.open('roaddefect.html', '_blank')">
                 2D Visualisation Map
             </button>
             <!-- Button 3-->
             <button class="nav-link" data-bs-toggle="tab" data-bs-target="#menu3" aria-selected="false">
-                Report defect
+                Report road defect
             </button>
 
             <!-- Button 4-->
@@ -59,9 +83,9 @@
         <div class="tab-content">
             <!-- First content -->
             <div class="tab-pane fade show active" id="menu1">
-                <h3>Live Streaming Video</h3>
+                <h3>Live Streaming</h3>
                 <div margin: auto>
-                <video height="auto" width="90%" autoplay loop muted>
+                <video height="500vh" width= "auto" autoplay loop muted>
                     <source src="./assets/video.mp4" type="video/mp4">
                     Your browser does not support the video tag.
                   </video>
@@ -71,15 +95,13 @@
 
             <!-- Second content -->
             <div class="tab-pane fade" id="menu2">
-                <h3>Road Twin</h3>
-                <div id="map" class="map"></div>
 
             </div>
 
             <!-- Third content -->
             <div id="menu3" class="tab-pane fade">
                 <div class="third-content">
-                  <h2>Report Road Defect</h2>
+                  <h2>Road Defect Report System</h2>
                   <form id="report-defect-form">
                     <div class="row">
                       <div class="col-md-6">
@@ -163,8 +185,6 @@
         </div>
 
     </div>
-
-
 
 </body>
 </html>
