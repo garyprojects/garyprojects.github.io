@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<title id="idPageTitle">Common Spatial Data Infrastructure (CSDI) Portal</title>
+<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+
+<!-- Font Awesome -->
+<link rel="stylesheet" href="./custom/icons/fontawesome-free/css/all.css">
+<link rel="stylesheet" href="./custom/icons/fontawesome-free-6.2.1-web/css/all.min.css">
+
+<link rel="stylesheet" href="https://static.csdi.gov.hk/geoportal/lib/bootstrap.css">
+<link rel="shortcut icon" type="image/x-icon" href="https://static.csdi.gov.hk/geoportal/images/favicon.ico">
+<link rel="stylesheet" href="/3.38/esri/themes/calcite/dijit/calcite.css">
+<link rel="stylesheet" href="/3.38/esri/themes/calcite/esri/esri.css">
+<link rel="stylesheet" href="https://static.csdi.gov.hk/3.38/esri/dijit/metadata/css/gxe.css"/>
+<link rel="stylesheet" href="https://static.csdi.gov.hk/3.38/esri/dijit/metadata/css/gxe-calcite.css"/>
+<link rel="stylesheet" href="https://static.csdi.gov.hk/geoportal/lib/typeahead.css">
+<link rel="stylesheet" href="https://static.csdi.gov.hk/geoportal/lib/jquery.star-rating-svg/css/star-rating-svg.css">
+<link rel="stylesheet" href="https://static.csdi.gov.hk/geoportal/viewer/libs/jquery-ui.css">
+<link rel="stylesheet" href="https://static.csdi.gov.hk/geoportal/custom/csditool.css">
+<link rel="stylesheet" href="https://static.csdi.gov.hk/geoportal/custom/csdiportal.css">
+
+
+	
+	
+		<link rel="stylesheet" href="https://static.csdi.gov.hk/geoportal/app/style/main.css">
+		<link rel="stylesheet" href="https://static.csdi.gov.hk/geoportal/custom/custom.css">
+		<link rel="stylesheet" href="https://static.csdi.gov.hk/geoportal/custom/csdiportalV2.css">
+        
+	
+
+
+<link rel="stylesheet" href="https://static.csdi.gov.hk/geoportal/custom/2024-revamp/css/style.css">
+<link rel="stylesheet" href="https://static.csdi.gov.hk/geoportal/custom/csdiportalV4.css">
+
+<!-- Font Style -->
+<link href="https://static.csdi.gov.hk/geoportal/custom/icons/fonts/Lato.css" rel="stylesheet">
+<link href="https://static.csdi.gov.hk/geoportal/custom/icons/fonts/Poppins.css" rel="stylesheet">
+
+</head>
+<div id="idCSDI_Site" style="display: none;">OPEN</div>
+<body class="calcite site-main ">
+<script src="https://static.csdi.gov.hk/geoportal/lib/jquery-3.7.1.min.js"></script>
+<script src="https://static.csdi.gov.hk/geoportal/viewer/libs/jquery-ui.js"></script>
+<script type="text/javascript">
+
+ function getURLRequestParam(name) {
+    param = location.search.split(/[?&]/).filter(function(p){ return p.startsWith(name); });
+    if (param && param.length>0) {
+      var value = param[0].substring(name.length+1);
+      return decodeURIComponent(value);
+    }
+    return null;
+  }
+
+  var usrLang = getURLRequestParam("lang");
+  if (usrLang != null) {
+	  if (usrLang == "en" || usrLang == "zh-hk" || usrLang == "zh-cn") {
+		  window.localStorage.setItem('csdi-lang',usrLang);
+		  window.localStorage.setItem('csdi-maplang',usrLang);
+		  
+		  // Remove "lang=xxx" parameter
+		  var newPara = location.search;
+		  newPara = newPara.replace('&lang='+ usrLang,'');
+		  newPara = newPara.replace('lang='+ usrLang + '&','');
+		  newPara = newPara.replace('lang='+ usrLang,'');
+		  location.search = newPara;
+	  }
+  }
+  
+  var csdi_lang = localStorage["csdi-lang"] != null ? localStorage["csdi-lang"] : "en";
+  window.localStorage.setItem('csdi-maplang',csdi_lang);
+
+  var dojoConfig = {
+    locale: csdi_lang,
+    extraLocale: ['zh-hk', 'zh-cn'],
+    async: true,
+    parseOnLoad: true,
+    packages: [
+      {
+        name: 'app',
+        location: location.pathname.replace(/\/[^/]*$/, '') + '/app',
+      }
+    ]
+  };
+  
+	if (csdi_lang == 'zh-hk')
+		document.getElementById('idPageTitle').innerHTML = '空間數據共享平台入門網站' + (document.getElementById("idCSDI_Site").innerHTML == 'OPEN' ? '' : ' (政府內部使用)');
+	else if (csdi_lang == 'zh-cn')
+		document.getElementById('idPageTitle').innerHTML = '空间数据共享平台入门网站' + (document.getElementById("idCSDI_Site").innerHTML == 'OPEN' ? '' : ' (政府内部使用)');
+	else
+		document.getElementById('idPageTitle').innerHTML = 'Common Spatial Data Infrastructure (CSDI) Portal' + (document.getElementById("idCSDI_Site").innerHTML == 'OPEN' ? '' : ' for Government');
+
+</script>
+
+<!-- Matomo -->
+<script>
+  var _paq = window._paq = window._paq || [];
+  /* tracker methods like "setCustomDimension" should be called before "trackPageView" */
+  _paq.push(['trackPageView']);
+  _paq.push(['enableLinkTracking']);
+  (function() {
+    var u="/matomo/";
+    _paq.push(['setTrackerUrl', u+'matomo.php']);
+    
+    
+	  
+	  
+	    _paq.push(['setSiteId', '3']);
+        
+	  
+     
+    
+    var d=document, g=d.createElement('script'), s=d.getElementsByTagName('script')[0];
+    g.async=true; g.src=u+'matomo.js'; s.parentNode.insertBefore(g,s);
+  })();
+</script>
+<!-- End Matomo Code -->
+<div id="custom-banner" class="custom-banner"></div>
+<div id="app"></div>
+<div id="app-loading-node" class="g-app-loading">
+	<div class="progress">
+	  <div class="progress-bar progress-bar-striped active"
+	    role="progressbar" style="width:100%">Loading...</div>
+	</div>
+</div>
+<div id="app-browser-incompatible-node" class="g-browser-incompatible">
+	  <span id="app-browser-incompatible-msg" style="width:100%"></span>
+</div>
+
+<!-- date.format -->
+<script src="https://static.csdi.gov.hk/geoportal/custom/date.format.js"></script>
+
+<script src="https://static.csdi.gov.hk/geoportal/lib/d3-3.5.5.js"></script>
+<script src="https://static.csdi.gov.hk/geoportal/lib/popper.min.js"></script>
+<script src="https://static.csdi.gov.hk/geoportal/lib/c3.min.js"></script>
+<script src="https://static.csdi.gov.hk/geoportal/lib/bootstrap-5.3.3.min.js"></script>
+<script src="https://static.csdi.gov.hk/geoportal/lib/typeahead.js"></script>
+<script src="https://static.csdi.gov.hk/3.38/init.js"></script>
+<script src="https://static.csdi.gov.hk/geoportal/custom/custom.js"></script>
+<script src="https://static.csdi.gov.hk/geoportal/custom/2024-revamp/js/script.js"></script>
+<script src="https://static.csdi.gov.hk/geoportal/app/configs/configJs.js"></script>
+<script src="https://static.csdi.gov.hk/geoportal/lib/jquery.star-rating-svg/jquery.star-rating-svg.js"></script>
+<script>
+require(["app","dojo/i18n!app/nls/resources", "app/common/MessageDialog"],function(app,i18n, MessageDialog) {
+  var isIE = navigator.userAgent.indexOf("MSIE ")!=-1 || navigator.userAgent.indexOf("Trident/")!=-1;
+  if (!isIE) {
+    document.getElementById("app-loading-node").style.display = "block";
+    require(["dojo/ready","app/context/AppContext","app/context/AppStarter"],
+    function(ready,AppContext,AppStarter) {
+      window.AppContext = new AppContext();
+      ready(function() {
+        esri.config.defaults.io.proxyUrl = "viewer/proxy.jsp";
+        (new AppStarter()).startupApp();
+      });
+    });
+  } else {
+    //console.log("Your browser is no longer supported.");
+    document.getElementById("app-browser-incompatible-node").style.display = "block";
+    document.getElementById("app-browser-incompatible-node").innerHTML = i18n.general.incompatible;
+  }
+
+  // session timeout after 20 minutes
+  (function (delay) {
+	    function getTimeout() {
+	        return setTimeout(function () {
+	        	var ind = window.location.hash.indexOf("#mapPanel");
+	        	
+	        	if(typeof $("#signOut").css("display") !== "undefined" && $("#signOut").css("display") !== "none" && ind<0){
+		            //console.log('session expired');
+		            
+		            window.localStorage.removeItem('csdi-geoportal-token');
+					window.sessionStorage.removeItem('selectedItem');
+					window.localStorage.removeItem('updateCount');
+					window.localStorage.removeItem('favList');
+					window.localStorage.removeItem('tempFavData');
+
+		            var messageDialog = new MessageDialog({
+		            	content: i18n.error.session.expired,
+		            	onOkClicked: function(){
+		            		window.location.replace("/csdi-webpage/login");
+		            	},
+		            	onHide: function(){
+		            		window.location.replace("/csdi-webpage/login");
+		            	}
+		            });
+		            messageDialog.show();
+				}
+				else{
+					//console.log("session expired: do nothing");
+				}
+	        }, delay);
+	    };
+	       
+	    // start the session timer
+	    var timeoutSession = getTimeout();
+
+	    $(document).ajaxSend(function() {
+	        // this event fires any time an ajax call is sent
+	        //console.log('timeout reset');
+	        clearTimeout(timeoutSession);
+	        timeoutSession = getTimeout();
+	    });
+	})(1200000);
+});
+
+var lang = window.localStorage.getItem('csdi-lang');
+//if(getSite()=="OPEN"){
+//	facebookChangeLang(lang);
+//}
+
+function changeLang(curLang) {
+
+    var metaID = document.getElementById("idMetadataInfoTitle");
+    var metaVisibility = 'hidden';
+
+    if (metaID != null) {
+    	metaVisibility = metaID.style.visibility;
+    }
+	$.ajax({
+             url: set_csdi_url('ToLang'),
+             type: "GET",
+             data: { lang: curLang, meta: metaVisibility},
+             success: function () {
+
+                         }
+         });
+
+	window.localStorage.setItem('csdi-lang',curLang);
+	//console.log(window.location.href);
+	
+	//if(getSite()=="OPEN"){
+	//	facebookChangeLang(curLang);
+	//}
+	
+	var locationUrl = window.location.href;
+	if(locationUrl.indexOf("mapPanel") !== -1){
+		//console.log("in mapPanel");
+		//console.log(document.getElementById("mapFrameNodeID").contentWindow.document.getElementById("SwitchLangWidget_tc"));
+		//console.log("curLang:  ", curLang);
+		switch (curLang){
+			case "en":
+				document.getElementById("mapFrameNodeID").contentWindow.document.getElementById("SwitchLangWidget_eng").click();
+				document.getElementById("mapFrameNodeID").contentWindow.document.getElementsByClassName("esriAttributionLastItem")[0].childNodes[0].innerHTML = "©The Government of the Hong Kong SAR";
+				break;
+			case "zh-cn":
+				document.getElementById("mapFrameNodeID").contentWindow.document.getElementById("SwitchLangWidget_sc").click();
+				document.getElementById("mapFrameNodeID").contentWindow.document.getElementsByClassName("esriAttributionLastItem")[0].childNodes[0].innerHTML = "©地图版权属香港特别行政区政府";
+				break;
+			case "zh-hk":
+				document.getElementById("mapFrameNodeID").contentWindow.document.getElementById("SwitchLangWidget_tc").click();
+				document.getElementById("mapFrameNodeID").contentWindow.document.getElementsByClassName("esriAttributionLastItem")[0].childNodes[0].innerHTML = "©地圖版權屬香港特別行政區政府";
+				break;
+		}
+		
+		require(["app/etc/util"],function (util){
+			////console.log("Main App");
+			util.update_header('map');
+		});
+		
+		// document.getElementById("mapFrameNodeID").contentWindow.changeNlsListener(curLang);
+		require({},["dojo/topic"],function (topic){
+			//console.log("publish topic");
+			topic.publish("widgets/changelang", curLang);
+		})
+
+	}
+	else {
+		window.localStorage.setItem('csdi-maplang',curLang);
+		location.reload(true);
+	}
+}
+</script>
+</body>
+</html>
