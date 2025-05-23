@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WorldSkills Countdown</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container-fluid main-container">
+        <div class="row header">
+            <div class="col-12 text-center">
+                <div class="logo-container">
+                    <img src="worldSkills_logo.png" alt="WorldSkills Logo" class="logo">
+                    <img src="yci_logo.jpg" alt="YCI Logo" class="logo">
+                </div>
+            </div>
+        </div>
+
+        <div class="row countdown-container">
+            <div class="col-12 text-center">
+                
+                <div class="countdown-wrapper">
+                    <div class="segment-display">
+                        <div class="segment-group">
+                            <div class="segment" id="hours-tens"></div>
+                            <div class="segment" id="hours-ones"></div>
+                        </div>
+                        <div class="segment-separator">:</div>
+                        <div class="segment-group">
+                            <div class="segment" id="minutes-tens"></div>
+                            <div class="segment" id="minutes-ones"></div>
+                        </div>
+                        <div class="segment-separator">:</div>
+                        <div class="segment-group">
+                            <div class="segment" id="seconds-tens"></div>
+                            <div class="segment" id="seconds-ones"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="input-container">
+                    <input type="text" id="timeInput" class="time-input" placeholder="HH:MM" maxlength="5">
+                    <button id="setButton" class="set-button">Set</button>
+                </div>
+
+
+            </div>
+        </div>
+    </div>
+
+    <!-- Bootstrap JS and Popper.js -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- Custom JS -->
+    <script src="script.js"></script>
+</body>
+</html> 
