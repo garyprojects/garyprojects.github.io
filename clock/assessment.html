@@ -6,308 +6,293 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Clock</title>
     <style>
+        :root {
+            --primary-gradient: linear-gradient(135deg, #1e3c72, #2a5298);
+            --glass-bg: rgba(255, 255, 255, 0.1);
+            --glass-border: 1px solid rgba(255, 255, 255, 0.18);
+            --glass-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+            --text-color: white;
+            --accent-color: #4CAF50;
+        }
+
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            font-family: Arial, sans-serif;
+            font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
         }
 
         body {
-            min-height: 100vh;
+            height: 100vh;
+            width: 100vw;
             display: flex;
-            align-items: center;
-            justify-content: center;
-            background: linear-gradient(135deg, #1e3c72, #2a5298);
-            color: white;
-            gap: 2rem;
-            padding: 2rem;
+            background: var(--primary-gradient);
+            color: var(--text-color);
+            overflow: hidden;
+            /* Prevent scrolling */
         }
 
-        .container {
-            text-align: center;
-            padding: 2rem;
-            background: rgba(255, 255, 255, 0.1);
+        /* Layout Container */
+        .main-layout {
+            display: flex;
+            width: 100%;
+            height: 100%;
+            padding: 1rem;
+            gap: 1rem;
+        }
+
+        /* Left Column: Logo */
+        .left-column {
+            flex: 0.5;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: flex-start;
+            background: var(--glass-bg);
             border-radius: 15px;
             backdrop-filter: blur(10px);
-            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+            border: var(--glass-border);
+            box-shadow: var(--glass-shadow);
+            padding: 1rem;
+            max-width: 25%;
+            gap: 1rem;
         }
 
         .logo-container {
+            width: 100%;
+            height: 100%;
             display: flex;
             align-items: center;
             justify-content: center;
-            width: 600px;
-            height: 600px;
-            background: rgba(255, 255, 255, 0.1);
-            border-radius: 15px;
-            backdrop-filter: blur(10px);
-            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
-            padding: 2rem;
         }
 
         .logo {
-            width: 100%;
-            height: 100%;
+            max-width: 100%;
+            max-height: 100%;
             object-fit: contain;
+            filter: drop-shadow(0 0 10px rgba(255, 255, 255, 0.2));
         }
 
-        @media (max-width: 1200px) {
-            body {
-                flex-direction: column;
-            }
-
-            .logo-container {
-                width: 400px;
-                height: 400px;
-            }
+        /* Right Column: Controls & Timer */
+        .right-column {
+            flex: 1.5;
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+            background: var(--glass-bg);
+            border-radius: 15px;
+            backdrop-filter: blur(10px);
+            border: var(--glass-border);
+            box-shadow: var(--glass-shadow);
+            padding: 1.5rem;
+            overflow-y: auto;
+            /* Allow internal scrolling if absolutely needed on small screens */
         }
 
-        @media (max-width: 768px) {
-            .logo-container {
-                width: 300px;
-                height: 300px;
-            }
+        /* Header Section */
+        .header-section {
+            text-align: center;
+            flex-shrink: 0;
         }
 
         h1 {
-            margin-bottom: 2rem;
-            font-size: 2.5rem;
+            font-size: 1.8rem;
+            margin-bottom: 0.5rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+        .subject-title-input {
+            width: 100%;
+            padding: 0.5rem;
+            font-size: 2.4rem;
+            /* Doubled from 1.2rem */
+            text-align: center;
+            background: rgba(255, 255, 255, 0.15);
+            border: none;
+            border-radius: 8px;
+            color: white;
+            border-bottom: 2px solid transparent;
+            transition: all 0.3s;
+            margin-bottom: 10rem;
+            /* Added padding below */
+        }
+
+        .subject-title-input:focus {
+            outline: none;
+            background: rgba(255, 255, 255, 0.25);
+            border-bottom: 2px solid var(--accent-color);
+        }
+
+        .subject-title-input::placeholder {
+            color: rgba(255, 255, 255, 0.6);
+        }
+
+        /* Timer Section */
+        .timer-section {
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 150px;
         }
 
         .timer-display {
-            font-size: 8rem;
+            font-size: clamp(8rem, 20vw, 16rem);
+            /* Doubled font size */
             font-weight: bold;
             font-family: 'Courier New', monospace;
-            text-shadow: 0 0 10px rgba(255, 255, 255, 0.3);
-            background: rgba(0, 0, 0, 0.2);
-            padding: 2rem;
-            border-radius: 15px;
-            min-width: 600px;
+            text-shadow: 0 0 20px rgba(255, 255, 255, 0.4);
             letter-spacing: 5px;
+            line-height: 1;
         }
 
-        @media (max-width: 768px) {
-            .timer-display {
-                font-size: 4rem;
-                min-width: auto;
-                padding: 1rem;
-                letter-spacing: 2px;
-            }
+        .set-time-display {
+            font-size: 1.5rem;
+            color: var(--accent-color);
+            margin-top: 0.5rem;
         }
 
-        .controls {
+        /* Controls Section */
+        .controls-section {
             display: flex;
+            flex-direction: column;
             gap: 1rem;
-            margin-bottom: 2rem;
-            align-items: center;
+            flex-shrink: 0;
+        }
+
+        .time-inputs {
+            display: flex;
             justify-content: center;
+            gap: 1.5rem;
         }
 
         .time-input-group {
             display: flex;
             flex-direction: column;
             align-items: center;
-            gap: 0.5rem;
+            gap: 0.2rem;
         }
 
         .time-input-group label {
-            font-size: 0.9rem;
-            color: rgba(255, 255, 255, 0.8);
+            font-size: 0.8rem;
+            opacity: 0.8;
+            text-transform: uppercase;
         }
 
         .time-input-controls {
             display: flex;
             align-items: center;
-            gap: 0.5rem;
+            gap: 0.3rem;
+            background: rgba(0, 0, 0, 0.2);
+            padding: 0.3rem;
+            border-radius: 8px;
         }
 
         .time-input-controls button {
-            padding: 0.3rem 0.8rem;
-            font-size: 1.2rem;
-            background-color: rgba(255, 255, 255, 0.2);
-            min-width: 40px;
-            height: 40px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
+            width: 50px;
+            /* Doubled */
+            height: 50px;
+            /* Doubled */
+            padding: 0;
+            font-size: 2rem;
+            /* Doubled */
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 4px;
         }
 
-        .time-input-controls button:hover {
-            background-color: rgba(255, 255, 255, 0.3);
-        }
-
-        input {
-            padding: 0.5rem;
-            font-size: 1rem;
-            border: none;
-            border-radius: 5px;
+        .time-input-controls input {
             width: 80px;
+            /* Doubled */
+            padding: 0.4rem;
+            /* Doubled */
+            font-size: 2rem;
+            /* Doubled */
+            background: transparent;
+            color: white;
             text-align: center;
-            background-color: rgba(255, 255, 255, 0.9);
+            border: none;
+        }
+
+        .main-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            flex-wrap: wrap;
         }
 
         button {
-            padding: 0.8rem 1.5rem;
-            font-size: 1rem;
+            padding: 1.2rem 2.4rem;
+            /* Doubled padding */
+            font-size: 1.8rem;
+            /* Doubled font size */
             border: none;
-            border-radius: 5px;
+            border-radius: 8px;
             cursor: pointer;
-            background-color: #4CAF50;
+            background-color: var(--accent-color);
             color: white;
-            transition: background-color 0.3s;
+            transition: transform 0.2s, background-color 0.2s;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
         }
 
         button:hover {
-            background-color: #45a049;
+            transform: translateY(-2px);
+            filter: brightness(1.1);
         }
 
-        button#reset {
-            background-color: #f44336;
-        }
-
-        button#reset:hover {
-            background-color: #da190b;
+        button:active {
+            transform: translateY(0);
         }
 
         button:disabled {
-            background-color: #cccccc;
+            background-color: rgba(255, 255, 255, 0.1);
+            color: rgba(255, 255, 255, 0.4);
             cursor: not-allowed;
+            transform: none;
         }
 
-        .warning {
-            color: #ff4444;
-            animation: blink 1s infinite;
+        button#reset,
+        button#stopEndExam,
+        button#stopTts {
+            background-color: #ff4444;
         }
 
-        .set-time-display {
-            font-size: 3rem;
-            font-weight: bold;
-            margin: 1rem 0;
-            color: #4CAF50;
-            text-shadow: 0 0 5px rgba(255, 255, 255, 0.5);
+        button#pause,
+        button#pauseEndExam,
+        button#pauseTts {
+            background-color: #ffbb33;
+            color: black;
         }
 
-        .subject-title-container {
-            margin-bottom: 1.5rem;
-            width: 100%;
+        button#playTts,
+        button#playEndExam {
+            background-color: #33b5e5;
         }
 
-        .subject-title-input {
-            width: 100%;
-            padding: 0.8rem 1rem;
-            font-size: 1.5rem;
-            text-align: center;
-            background-color: rgba(255, 255, 255, 0.9);
-            border: none;
-            border-radius: 5px;
-            margin-bottom: 0.5rem;
-        }
-
-        .subject-title-display {
-            font-size: 2.5rem;
-            font-weight: bold;
-            margin: 1rem 0;
-            color: white;
-            text-align: center;
-            text-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
-        }
-
-        .fullscreen-mode .subject-title-display {
-            font-size: 3rem;
-            margin-bottom: 2rem;
-        }
-
-        @keyframes blink {
-            50% {
-                opacity: 0.5;
-            }
-        }
-
-        .audio-controls {
-            margin-bottom: 1.5rem;
-            padding: 1rem;
-            background: rgba(255, 255, 255, 0.2);
-            border-radius: 8px;
-            text-align: center;
-        }
-
-        .audio-controls button {
-            background-color: #2196F3;
-            margin: 0.5rem;
-            min-width: 100px;
-        }
-
-        .audio-controls button:hover {
-            background-color: #1976D2;
-        }
-
-        .audio-status {
-            margin-top: 0.5rem;
-            font-size: 0.9rem;
-            font-style: italic;
-        }
-
-        .end-exam-controls {
-            display: none;
-            margin-top: 1.5rem;
-            padding: 1rem;
-            background: rgba(255, 255, 255, 0.2);
-            border-radius: 8px;
-            text-align: center;
-        }
-
-        .end-exam-controls.show {
-            display: block;
-        }
-
-        .end-exam-controls button {
-            background-color: #9C27B0;
-            margin: 0.5rem;
-            min-width: 100px;
-        }
-
-        .end-exam-controls button#pauseEndExam {
-            background-color: #FF9800;
-        }
-
-        .end-exam-controls button#stopEndExam {
-            background-color: #f44336;
-        }
-
-        .end-exam-controls button:hover {
-            background-color: #7B1FA2;
-        }
-
-        .end-exam-controls button#pauseEndExam:hover {
-            background-color: #F57C00;
-        }
-
-        .end-exam-controls button#stopEndExam:hover {
-            background-color: #D32F2F;
-        }
-
+        /* TTS Section - Compact */
         .tts-container {
-            margin-bottom: 1.5rem;
-            padding: 1rem;
-            background: rgba(255, 255, 255, 0.2);
-            border-radius: 8px;
-            text-align: center;
-        }
-
-        .tts-container.minimized .tts-content {
-            display: none;
+            background: rgba(0, 0, 0, 0.2);
+            border-radius: 10px;
+            padding: 0.8rem;
+            margin-top: auto;
+            /* Push to bottom if space allows */
         }
 
         .tts-header {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-bottom: 1rem;
             cursor: pointer;
+            padding-bottom: 0.5rem;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            margin-bottom: 0.5rem;
         }
 
         .tts-header h3 {
+            font-size: 1rem;
             margin: 0;
         }
 
@@ -322,240 +307,390 @@
         }
 
         .tts-content {
-            transition: height 0.3s ease;
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+
+        .tts-container.minimized .tts-content {
+            display: none;
         }
 
         .tts-container textarea {
             width: 100%;
-            height: 100px;
-            margin-bottom: 1rem;
-            padding: 0.5rem;
-            border-radius: 5px;
+            height: 180px;
+            /* Reduced for better fit at normal zoom levels */
+            background: rgba(255, 255, 255, 0.9);
             border: none;
+            border-radius: 5px;
+            padding: 0.5rem;
             resize: vertical;
-            font-size: 1rem;
+            font-size: 0.9rem;
+            color: #333;
         }
 
-        .tts-presets {
+        .tts-controls-row {
             display: flex;
-            justify-content: center;
-            margin-top: 1rem;
+            justify-content: space-between;
+            align-items: center;
             gap: 0.5rem;
             flex-wrap: wrap;
         }
 
-        .tts-presets button {
-            background-color: #9C27B0;
-        }
-
-        .tts-presets button:hover {
-            background-color: #7B1FA2;
-        }
-
-        .tts-presets select,
-        .tts-presets input {
-            padding: 0.5rem;
-            border-radius: 5px;
-            border: none;
-            min-width: 150px;
-        }
-
-        .tts-setting-group {
+        .tts-settings {
             display: flex;
-            align-items: center;
             gap: 0.5rem;
-        }
-
-        /* Full screen mode styles */
-        .fullscreen-mode {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(135deg, #1e3c72, #2a5298);
-            z-index: 1000;
-            display: flex;
-            flex-direction: column;
             align-items: center;
-            justify-content: space-evenly;
-            padding: 2rem;
+            flex: 1;
         }
 
-        .fullscreen-mode .logo-container {
-            transform: scale(1);
-            width: 400px;
-            height: 400px;
-            margin: 0;
+        .tts-settings select {
+            flex: 1;
+            padding: 0.3rem;
+            border-radius: 4px;
+            border: none;
+            font-size: 0.8rem;
+            max-width: 200px;
         }
 
-        .fullscreen-mode .timer-display {
-            transform: scale(1);
+        .tts-playback-controls {
+            display: flex;
+            gap: 0.3rem;
+        }
+
+        .tts-playback-controls button {
+            padding: 1.2rem 2.4rem;
+            /* Doubled to match main buttons */
+            font-size: 1.8rem;
+            /* Doubled to match main buttons */
             min-width: auto;
-            font-size: 8rem;
-            margin-top: 2rem;
         }
 
-        .exit-fullscreen {
-            position: absolute;
-            top: 20px;
-            right: 20px;
-            background-color: rgba(0, 0, 0, 0.3);
-            color: white;
-            border: none;
-            border-radius: 50%;
-            width: 50px;
-            height: 50px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 1.5rem;
-            cursor: pointer;
-            transition: background-color 0.3s;
+        /* End Exam Controls */
+        .end-exam-controls {
+            background: rgba(255, 68, 68, 0.2);
+            padding: 1rem;
+            border-radius: 10px;
+            text-align: center;
+            margin-top: 1rem;
+            display: none;
+            animation: slideUp 0.3s ease;
         }
 
-        .exit-fullscreen:hover {
-            background-color: rgba(0, 0, 0, 0.5);
+        .end-exam-controls.show {
+            display: block;
         }
 
-        .fullscreen-button {
+        @keyframes slideUp {
+            from {
+                transform: translateY(20px);
+                opacity: 0;
+            }
+
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+
+        /* Announcement Overlay */
+        .announcement {
             position: fixed;
-            bottom: 20px;
-            right: 20px;
-            background-color: #4CAF50;
-            color: white;
-            border: none;
-            border-radius: 10px;
-            width: 60px;
-            height: 60px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: rgba(0, 0, 0, 0.9);
+            padding: 2rem;
+            border-radius: 15px;
+            z-index: 1000;
+            text-align: center;
             font-size: 1.5rem;
-            cursor: pointer;
-            transition: background-color 0.3s;
-            z-index: 900;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+            border: 2px solid var(--accent-color);
+            box-shadow: 0 0 50px rgba(0, 0, 0, 0.5);
+            display: none;
         }
 
-        .fullscreen-button:hover {
-            background-color: #45a049;
+        .warning {
+            color: #ff4444;
+            animation: blink 1s infinite;
         }
 
-        .fullscreen-btn {
-            padding: 1rem 2rem;
-            font-size: 1.5rem;
-            background-color: #4CAF50;
-            color: white;
-            border: none;
-            border-radius: 10px;
-            cursor: pointer;
-            margin-top: 2rem;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
-            transition: background-color 0.3s, transform 0.2s;
+        @keyframes blink {
+            50% {
+                opacity: 0.5;
+            }
         }
 
-        .fullscreen-btn:hover {
-            background-color: #45a049;
-            transform: scale(1.05);
+        /* Responsive Design */
+        @media (max-width: 1600px) {
+            .timer-display {
+                font-size: clamp(6rem, 15vw, 12rem);
+            }
+
+            .time-input-controls button {
+                width: 40px;
+                height: 40px;
+                font-size: 1.5rem;
+            }
+
+            .time-input-controls input {
+                width: 60px;
+                font-size: 1.5rem;
+            }
+
+            button {
+                padding: 1rem 2rem;
+                font-size: 1.5rem;
+            }
+
+            .tts-playback-controls button {
+                padding: 1rem 2rem;
+                font-size: 1.5rem;
+            }
         }
 
-        .fullscreen-btn:active {
-            transform: scale(0.98);
-        }
+        @media (max-width: 1400px) {
+            h1 {
+                font-size: 1.5rem;
+            }
 
-        .fullscreen-btn:disabled {
-            background-color: #cccccc;
-            cursor: not-allowed;
-            transform: none;
-            box-shadow: none;
-        }
+            .timer-display {
+                font-size: clamp(5rem, 12vw, 10rem);
+            }
 
-        .no-mobile-icon {
-            position: absolute;
-            top: 20px;
-            left: 20px;
-            width: 500px;
-            height: 500px;
-            object-fit: contain;
-            padding: 10px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
-            border-radius: 10px;
-            background-color: rgba(255, 255, 255, 0.2);
+            .subject-title-input {
+                font-size: 2rem;
+            }
+
+            .time-input-controls button {
+                width: 35px;
+                height: 35px;
+                font-size: 1.2rem;
+            }
+
+            .time-input-controls input {
+                width: 50px;
+                font-size: 1.2rem;
+            }
+
+            button {
+                padding: 0.8rem 1.6rem;
+                font-size: 1.2rem;
+            }
+
+            .tts-playback-controls button {
+                padding: 0.8rem 1.6rem;
+                font-size: 1.2rem;
+            }
+
+            .tts-container textarea {
+                height: 180px;
+            }
         }
 
         @media (max-width: 1200px) {
-            .no-mobile-icon {
-                width: 300px;
-                height: 300px;
+            .main-layout {
+                flex-direction: column;
+                overflow-y: auto;
             }
+
+            .left-column {
+                max-width: 100%;
+                flex: 0 0 auto;
+                padding: 1rem;
+            }
+
+            .right-column {
+                flex: 1;
+                overflow: visible;
+            }
+
+            .timer-display {
+                font-size: clamp(4rem, 10vw, 8rem);
+            }
+
+            .subject-title-input {
+                font-size: 1.5rem;
+            }
+
+            .time-input-controls button {
+                width: 30px;
+                height: 30px;
+                font-size: 1rem;
+            }
+
+            .time-input-controls input {
+                width: 45px;
+                font-size: 1rem;
+            }
+
+            button {
+                padding: 0.6rem 1.2rem;
+                font-size: 1rem;
+            }
+
+            .tts-playback-controls button {
+                padding: 0.6rem 1.2rem;
+                font-size: 1rem;
+            }
+
+            .tts-container textarea {
+                height: 120px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .time-inputs {
+                gap: 0.5rem;
+            }
+
+            h1 {
+                font-size: 1.2rem;
+            }
+
+            .timer-display {
+                font-size: 15vw;
+            }
+
+            .subject-title-input {
+                font-size: 1.2rem;
+            }
+
+            .main-buttons button {
+                padding: 0.5rem 1rem;
+                font-size: 0.9rem;
+            }
+
+            .tts-playback-controls button {
+                padding: 0.5rem 1rem;
+                font-size: 0.9rem;
+            }
+
+            .tts-controls-row {
+                flex-direction: column;
+                align-items: stretch;
+            }
+
+            .tts-container textarea {
+                height: 80px;
+            }
+        }
+
+        @media (max-width: 600px) {
+            .time-input-controls button {
+                width: 25px;
+                height: 25px;
+                font-size: 0.9rem;
+            }
+
+            .time-input-controls input {
+                width: 35px;
+                font-size: 0.9rem;
+            }
+
+            button {
+                padding: 0.4rem 0.8rem;
+                font-size: 0.8rem;
+            }
+
+            .tts-playback-controls button {
+                padding: 0.4rem 0.8rem;
+                font-size: 0.8rem;
+            }
+        }
+
+        /* Hidden elements that might be needed for JS but not shown */
+        .hidden {
+            display: none;
         }
     </style>
 </head>
 
 <body>
-    <div class="logo-container">
-        <img src="YCI LOGO.png" alt="YCI Logo" class="logo">
-    </div>
-    <div class="container">
-        <h1>Assessment Clock</h1>
-        <div class="subject-title-container">
-            <input type="text" id="subjectTitle" class="subject-title-input" placeholder="Enter Assessment Subject"
-                maxlength="100">
+    <div class="main-layout">
+        <!-- Left Column: Logo -->
+        <div class="left-column">
+            <div class="logo-container">
+                <img src="YCI LOGO.png" alt="YCI Logo" class="logo">
+            </div>
+            <div style="width: 100%; display: flex; justify-content: center; margin-top: 1rem;">
+                <img src="no_electdevices.jpg" alt="No Electronic Devices"
+                    style="max-width: 80%; height: auto; border-radius: 10px;">
+            </div>
+            <div class="subject-title-container">
+                <input type="text" id="subjectTitle" class="subject-title-input" placeholder="Enter Assessment Subject"
+                    maxlength="100">
+            </div>
         </div>
-        <div class="announcement" id="announcement">
-            Attention! The assessment will begin shortly. Please ensure you have all necessary materials ready.
-        </div>
-        <div class="controls">
-            <div class="time-input-group">
-                <label>Hours</label>
-                <div class="time-input-controls">
-                    <button id="addHour">+</button>
-                    <input type="number" id="hours" min="0" max="23" placeholder="HH">
-                    <button id="subtractHour">−</button>
+
+        <!-- Right Column: Controls & Timer -->
+        <div class="right-column">
+            <!-- Header -->
+            <div class="header-section">
+                <h1>Assessment Clock</h1>
+            </div>
+
+            <!-- Timer -->
+            <div class="timer-section">
+                <div class="set-time-display" id="setTimeDisplay" style="display: none;">Ready to start: 00:00:00</div>
+                <div class="timer-display" id="timer">00:00:00</div>
+
+                <div class="end-exam-controls" id="endExamControls">
+                    <h3>End of Assessment Announcement</h3>
+                    <div>
+                        <button id="playEndExam">Play</button>
+                        <button id="pauseEndExam">Pause</button>
+                        <button id="stopEndExam">Stop</button>
+                    </div>
+                    <div id="endExamStatus" class="audio-status"></div>
                 </div>
             </div>
-            <div class="time-input-group">
-                <label>Minutes</label>
-                <div class="time-input-controls">
-                    <button id="addMinute">+</button>
-                    <input type="number" id="minutes" min="0" max="59" placeholder="MM">
-                    <button id="subtractMinute">−</button>
+
+            <!-- Controls -->
+            <div class="controls-section">
+                <div class="time-inputs">
+                    <div class="time-input-group">
+                        <label>Hours</label>
+                        <div class="time-input-controls">
+                            <button id="addHour">+</button>
+                            <input type="number" id="hours" min="0" max="23" placeholder="HH">
+                            <button id="subtractHour">−</button>
+                        </div>
+                    </div>
+                    <div class="time-input-group">
+                        <label>Minutes</label>
+                        <div class="time-input-controls">
+                            <button id="addMinute">+</button>
+                            <input type="number" id="minutes" min="0" max="59" placeholder="MM">
+                            <button id="subtractMinute">−</button>
+                        </div>
+                    </div>
+                    <div class="time-input-group">
+                        <label>Seconds</label>
+                        <div class="time-input-controls">
+                            <button id="addSecond">+</button>
+                            <input type="number" id="seconds" min="0" max="59" placeholder="SS">
+                            <button id="subtractSecond">−</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="main-buttons">
+                    <button id="setTimer">Set</button>
+                    <button id="start">Start Assessment</button>
+                    <button id="pause">Pause</button>
+                    <button id="reset">Reset</button>
                 </div>
             </div>
-            <div class="time-input-group">
-                <label>Seconds</label>
-                <div class="time-input-controls">
-                    <button id="addSecond">+</button>
-                    <input type="number" id="seconds" min="0" max="59" placeholder="SS">
-                    <button id="subtractSecond">−</button>
+
+            <!-- TTS Section -->
+            <div class="tts-container" id="ttsContainer">
+                <div class="tts-header" id="ttsHeader">
+                    <h3>Assessment Rules</h3>
+                    <button class="tts-toggle" id="ttsToggle">−</button>
                 </div>
-            </div>
-        </div>
-        <div>
-            <button id="setTimer">Set</button>
-            <button id="start">Start Assessment</button>
-            <button id="pause">Pause</button>
-            <button id="reset">Reset</button>
-        </div>
-        <div class="set-time-display" id="setTimeDisplay" style="display: none;">Ready to start: 00:00:00</div>
-        <div class="timer-display" id="timer">00:00:00</div>
-        <div class="end-exam-controls" id="endExamControls">
-            <h3>End of Assessment Announcement</h3>
-            <div>
-                <button id="playEndExam">Play</button>
-                <button id="pauseEndExam">Pause</button>
-                <button id="stopEndExam">Stop</button>
-            </div>
-            <div id="endExamStatus" class="audio-status"></div>
-        </div>
-        <div class="tts-container" id="ttsContainer">
-            <div class="tts-header" id="ttsHeader">
-                <h3>Assessment Rules</h3>
-                <button class="tts-toggle" id="ttsToggle">−</button>
-            </div>
-            <div class="tts-content" id="ttsContent">
-                <textarea id="ttsText" placeholder="Enter Assessment rules to be read aloud...">You are here to take:
+                <div class="tts-content" id="ttsContent">
+                    <textarea id="ttsText" placeholder="Enter Assessment rules to be read aloud...">You are here to take:
                     Name of assessment: MATHEMATICS;
                     Syllabus code: 0580;
                     
@@ -584,63 +719,68 @@
                     You are now under Assessment conditions.  Please do not write anything until you are told to do so. 
 
                     Please remain seated quietly.
+                    </textarea>
 
-                    
+                    <div class="tts-controls-row">
+                        <div class="tts-settings">
+                            <label for="ttsVoice">Voice:</label>
+                            <select id="ttsVoice"></select>
 
-                    
-                
+                            <!-- Hidden but kept for JS compatibility if needed, or we can remove if JS doesn't strictly need them visible -->
+                            <div class="hidden">
+                                <input type="range" id="ttsRate" min="0.5" max="2" step="0.1" value="1">
+                                <span id="ttsRateValue">1.0</span>
+                                <input type="range" id="ttsPitch" min="0.5" max="2" step="0.1" value="1">
+                                <span id="ttsPitchValue">1.0</span>
+                                <input type="text" id="presetName">
+                                <button id="savePreset">Save</button>
+                                <select id="presetSelect"></select>
+                                <button id="loadPreset">Load</button>
+                                <button id="deletePreset">Delete</button>
+                            </div>
+                        </div>
 
-
-                </textarea>
-                
-                <div class="tts-settings">
-                    <div class="tts-setting-group">
-                        <label for="ttsVoice">Voice:</label>
-                        <span>Microsoft Andrew Online (Natural) - English (United States)</span>
-                        <select id="ttsVoice" style="display: none;"></select>
+                        <div class="tts-playback-controls">
+                            <button id="playTts">Speak</button>
+                            <button id="pauseTts">Pause</button>
+                            <button id="resumeTts">Resume</button>
+                            <button id="stopTts">Stop</button>
+                        </div>
                     </div>
-                    <div class="tts-setting-group">
-                        <label for="ttsRate">Rate:</label>
-                        <input type="range" id="ttsRate" min="0.5" max="2" step="0.1" value="1">
-                        <span id="ttsRateValue">1.0</span>
-                    </div>
-                    <div class="tts-setting-group">
-                        <label for="ttsPitch">Pitch:</label>
-                        <input type="range" id="ttsPitch" min="0.5" max="2" step="0.1" value="1">
-                        <span id="ttsPitchValue">1.0</span>
-                    </div>
-                </div>
-                <div class="tts-presets">
-                    <input type="text" id="presetName" placeholder="Preset Name">
-                    <button id="savePreset">Save Preset</button>
-                    <select id="presetSelect">
-                        <option value="">-- Select Preset --</option>
-                    </select>
-                    <button id="loadPreset">Load</button>
-                    <button id="deletePreset">Delete</button>
+                    <div id="ttsStatus" class="audio-status" style="font-size: 0.8rem; margin-top: 0.2rem;"></div>
                 </div>
             </div>
-            <div class="tts-controls">
-                <button id="playTts">Speak</button>
-                <button id="pauseTts">Pause</button>
-                <button id="resumeTts">Resume</button>
-                <button id="stopTts">Stop</button>
+
+            <!-- Assessment Completed TTS Section -->
+            <div class="tts-container" id="ttsCompletedContainer">
+                <div class="tts-header" id="ttsCompletedHeader">
+                    <h3>Assessment Completed</h3>
+                    <button class="tts-toggle" id="ttsCompletedToggle">−</button>
+                </div>
+                <div class="tts-content" id="ttsCompletedContent">
+                    <textarea id="ttsCompletedText"
+                        placeholder="Enter message to be read when timer reaches 0...">Time is up, pens down.</textarea>
+
+                    <div class="tts-controls-row" style="display: none;">
+                        <!-- Hidden controls -->
+                    </div>
+                    <div id="ttsCompletedStatus" class="audio-status" style="font-size: 0.8rem; margin-top: 0.2rem;">
+                    </div>
+                </div>
             </div>
-            <div id="ttsStatus" class="tts-status"></div>
         </div>
     </div>
+
+    <!-- Overlays -->
+    <div class="announcement" id="announcement">
+        Attention! The assessment will begin shortly. Please ensure you have all necessary materials ready.
+    </div>
+
     <audio id="endExamAudio">
         <source src="End of examination.mp3" type="audio/mpeg">
         Your browser does not support the audio element.
     </audio>
-    <button id="fullscreenButton" class="fullscreen-button" title="Enter full screen mode">
-        <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 24 24" fill="none"
-            stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <path d="M8 3H5a2 2 0 0 0-2 2v3m18 0V5a2 2 0 0 0-2-2h-3m0 18h3a2 2 0 0 0 2-2v-3M3 16v3a2 2 0 0 0 2 2h3">
-            </path>
-        </svg>
-        <span style="margin-left: 5px;">Full</span>
-    </button>
+
     <script>
         let timeLeft;
         let timerId = null;
@@ -690,6 +830,17 @@
         const ttsContent = document.getElementById('ttsContent');
         const subjectTitleInput = document.getElementById('subjectTitle');
 
+        // Assessment Completed TTS elements
+        const ttsCompletedTextarea = document.getElementById('ttsCompletedText');
+        const ttsCompletedStatus = document.getElementById('ttsCompletedStatus');
+        const ttsCompletedContainer = document.getElementById('ttsCompletedContainer');
+        const ttsCompletedHeader = document.getElementById('ttsCompletedHeader');
+        const ttsCompletedToggle = document.getElementById('ttsCompletedToggle');
+        const ttsCompletedContent = document.getElementById('ttsCompletedContent');
+
+        let isSpeakingCompleted = false;
+        let speechCompletedUtterance = null;
+
         // Disable buttons initially
         pauseButton.disabled = true;
         startButton.disabled = true;
@@ -738,7 +889,7 @@
                 if (timeLeft === 0) return; // Setting failed
             }
 
-            // Disable inputs and buttons during announcement
+            // Disable inputs and buttons during timer
             hoursInput.disabled = true;
             minutesInput.disabled = true;
             secondsInput.disabled = true;
@@ -749,11 +900,6 @@
 
             // Hide the set time display
             setTimeDisplay.style.display = 'none';
-
-            // Show announcement
-            announcementDiv.style.display = 'block';
-            await new Promise(resolve => setTimeout(resolve, 3000));
-            announcementDiv.style.display = 'none';
 
             // Re-enable pause and reset buttons
             pauseButton.disabled = false;
@@ -768,10 +914,12 @@
                 } else {
                     clearInterval(timerId);
                     timerId = null;
+                    // Speak the completion message
+                    playCompletedTtsAuto();
                     // Show end exam controls and play audio
                     endExamControls.classList.add('show');
                     playEndExamAudio();
-                    alert('Exam time is up!');
+                    // alert('Exam time is up!'); // Removed to prevent blocking TTS
                     resetTimer();
                 }
             }, 1000);
@@ -929,23 +1077,15 @@
                 // Start new speech
                 speechUtterance = new SpeechSynthesisUtterance(text);
 
-                // Set voice to Microsoft Andrew Online (Natural)
+                // Set voice to selected voice
+                const selectedVoiceName = ttsVoiceSelect.value;
                 const voices = speechSynthesis.getVoices();
-                const andrewVoice = voices.find(voice =>
-                    voice.name.includes('Microsoft Andrew') &&
-                    voice.name.includes('Natural') &&
-                    voice.lang === 'en-US'
-                );
+                const selectedVoice = voices.find(voice => voice.name === selectedVoiceName);
 
-                if (andrewVoice) {
-                    speechUtterance.voice = andrewVoice;
+                if (selectedVoice) {
+                    speechUtterance.voice = selectedVoice;
                 } else {
-                    console.warn('Microsoft Andrew voice not found, using default voice');
-                    // Try to find any English US voice as fallback
-                    const englishVoice = voices.find(voice => voice.lang === 'en-US');
-                    if (englishVoice) {
-                        speechUtterance.voice = englishVoice;
-                    }
+                    console.warn('Selected voice not found, using default');
                 }
 
                 speechUtterance.rate = parseFloat(ttsRateInput.value);
@@ -970,7 +1110,7 @@
 
                 speechUtterance.onerror = (event) => {
                     console.error('Speech synthesis error:', event);
-                    ttsStatus.textContent = "Error occurred while speaking.";
+                    ttsStatus.textContent = "Stop button is pressed while speaking.";
                     resetTtsState();
                 };
 
@@ -1015,6 +1155,52 @@
             pauseTtsButton.disabled = true;
             resumeTtsButton.disabled = true;
             stopTtsButton.disabled = true;
+        }
+
+        // Assessment Completed TTS functions
+        function playCompletedTtsAuto() {
+            const text = ttsCompletedTextarea.value.trim();
+            if (!text) return;
+
+            speechCompletedUtterance = new SpeechSynthesisUtterance(text);
+
+            // Set voice to selected voice (same as Assessment Rules)
+            const selectedVoiceName = ttsVoiceSelect.value;
+            const voices = speechSynthesis.getVoices();
+            const selectedVoice = voices.find(voice => voice.name === selectedVoiceName);
+
+            if (selectedVoice) {
+                speechCompletedUtterance.voice = selectedVoice;
+            }
+
+            speechCompletedUtterance.rate = 1;
+            speechCompletedUtterance.pitch = 1;
+
+            speechCompletedUtterance.onstart = () => {
+                isSpeakingCompleted = true;
+                ttsCompletedStatus.textContent = "Speaking...";
+            };
+
+            speechCompletedUtterance.onend = () => {
+                resetCompletedTtsState();
+                ttsCompletedStatus.textContent = "Finished speaking.";
+                setTimeout(() => {
+                    ttsCompletedStatus.textContent = "";
+                }, 3000);
+            };
+
+            speechCompletedUtterance.onerror = (event) => {
+                console.error('Speech synthesis error:', event);
+                ttsCompletedStatus.textContent = "Error occurred while speaking.";
+                resetCompletedTtsState();
+            };
+
+            // Start speaking
+            speechSynthesis.speak(speechCompletedUtterance);
+        }
+
+        function resetCompletedTtsState() {
+            isSpeakingCompleted = false;
         }
 
         // TTS preset functions
@@ -1139,40 +1325,52 @@
             const voices = speechSynthesis.getVoices();
             ttsVoiceSelect.innerHTML = '';
 
-            // Find Microsoft Andrew voice
-            const andrewVoice = voices.find(voice =>
+            // Filter for English and Traditional Chinese voices
+            let relevantVoices = voices.filter(voice =>
+                voice.lang.startsWith('en') ||
+                voice.lang === 'zh-TW' ||
+                voice.lang === 'zh-HK'
+            );
+
+            // Sort voices: English first, then Chinese; Natural/Online first within each language
+            relevantVoices.sort((a, b) => {
+                const aName = a.name.toLowerCase();
+                const bName = b.name.toLowerCase();
+                const aIsNatural = aName.includes('natural') || aName.includes('online');
+                const bIsNatural = bName.includes('natural') || bName.includes('online');
+                const aIsEnglish = a.lang.startsWith('en');
+                const bIsEnglish = b.lang.startsWith('en');
+
+                // First, sort by language (English first)
+                if (aIsEnglish && !bIsEnglish) return -1;
+                if (!aIsEnglish && bIsEnglish) return 1;
+
+                // Within same language group, prioritize Natural/Online
+                if (aIsNatural && !bIsNatural) return -1;
+                if (!aIsNatural && bIsNatural) return 1;
+
+                // Finally, sort alphabetically by name
+                return aName.localeCompare(bName);
+            });
+
+            // Add voices to the dropdown
+            relevantVoices.forEach(voice => {
+                const option = document.createElement('option');
+                const isNatural = voice.name.toLowerCase().includes('natural') || voice.name.toLowerCase().includes('online');
+                option.textContent = `${isNatural ? '🌟 ' : ''}${voice.name} (${voice.lang})`;
+                option.value = voice.name;
+                ttsVoiceSelect.appendChild(option);
+            });
+
+            // Try to select Microsoft Andrew as default if available, otherwise first available
+            const andrewVoice = relevantVoices.find(voice =>
                 voice.name.includes('Microsoft Andrew') &&
                 voice.name.includes('Natural') &&
                 voice.lang === 'en-US'
             );
 
-            let andrewOption;
-
-            // Add all voices to the dropdown
-            voices.forEach(voice => {
-                const option = document.createElement('option');
-                option.textContent = `${voice.name} (${voice.lang})`;
-                option.value = voice.name;
-
-                // Check if this is the Microsoft Andrew voice
-                if (andrewVoice && voice.name === andrewVoice.name) {
-                    option.selected = true;
-                    andrewOption = option;
-                }
-
-                ttsVoiceSelect.appendChild(option);
-            });
-
-            // If Andrew voice exists, make it the default and disable selection
             if (andrewVoice) {
                 ttsVoiceSelect.value = andrewVoice.name;
-                ttsVoiceSelect.disabled = true;
-
-                // Add a note about the fixed voice
-                ttsStatus.textContent = "Using Microsoft Andrew voice";
-                setTimeout(() => {
-                    ttsStatus.textContent = "";
-                }, 3000);
             }
         }
 
@@ -1197,6 +1395,12 @@
         ttsHeader.addEventListener('click', () => {
             ttsContainer.classList.toggle('minimized');
             ttsToggle.textContent = ttsContainer.classList.contains('minimized') ? '+' : '−';
+        });
+
+        // Toggle Assessment Completed TTS container minimize/expand
+        ttsCompletedHeader.addEventListener('click', () => {
+            ttsCompletedContainer.classList.toggle('minimized');
+            ttsCompletedToggle.textContent = ttsCompletedContainer.classList.contains('minimized') ? '+' : '−';
         });
 
         startButton.addEventListener('click', startTimer);
@@ -1279,143 +1483,6 @@
             input.value = value;
         }
 
-        // Full screen mode functionality
-        const fullscreenButton = document.getElementById('fullscreenButton');
-        let fullscreenMode = false;
-        let fullscreenContainer = null;
-        let exitFullscreenButton = null;
-        let fullscreenLogo = null;
-        let fullscreenTimer = null;
-
-        fullscreenButton.addEventListener('click', toggleFullscreen);
-
-        function toggleFullscreen() {
-            if (!fullscreenMode) {
-                enterFullscreen();
-            } else {
-                exitFullscreen();
-            }
-        }
-
-        function enterFullscreen() {
-            // Create fullscreen container
-            fullscreenContainer = document.createElement('div');
-            fullscreenContainer.className = 'fullscreen-mode';
-
-            // Create no mobile phone icon
-            const noMobileIcon = document.createElement('img');
-            noMobileIcon.src = 'no_electdevices.jpg';
-            noMobileIcon.alt = 'No Mobile Phones';
-            noMobileIcon.className = 'no-mobile-icon';
-
-            // Get subject title
-            const subjectTitle = subjectTitleInput.value.trim() || "Assessment";
-
-            // Create subject title display
-            const subjectTitleDisplay = document.createElement('div');
-            subjectTitleDisplay.className = 'subject-title-display';
-            subjectTitleDisplay.id = 'fullscreenSubjectTitle';
-            subjectTitleDisplay.textContent = subjectTitle;
-
-            // Clone logo and timer for fullscreen mode
-            fullscreenLogo = document.querySelector('.logo-container').cloneNode(true);
-            fullscreenTimer = document.createElement('div');
-            fullscreenTimer.className = 'timer-display';
-            fullscreenTimer.id = 'fullscreenTimer';
-            fullscreenTimer.textContent = timerDisplay.textContent;
-
-            // Create start exam button for fullscreen mode
-            const fullscreenStartButton = document.createElement('button');
-            fullscreenStartButton.className = 'fullscreen-btn';
-            fullscreenStartButton.id = 'fullscreenStartButton';
-            fullscreenStartButton.textContent = 'Start Exam';
-            fullscreenStartButton.disabled = !startButton || startButton.disabled;
-            fullscreenStartButton.addEventListener('click', () => {
-                startTimer();
-                fullscreenStartButton.style.display = 'none';
-            });
-
-            // Create exit button
-            exitFullscreenButton = document.createElement('button');
-            exitFullscreenButton.className = 'exit-fullscreen';
-            exitFullscreenButton.innerHTML = '✕';
-            exitFullscreenButton.title = 'Exit full screen mode';
-            exitFullscreenButton.addEventListener('click', exitFullscreen);
-
-            // Create a wrapper for better layout
-            const contentWrapper = document.createElement('div');
-            contentWrapper.style.display = 'flex';
-            contentWrapper.style.flexDirection = 'column';
-            contentWrapper.style.alignItems = 'center';
-            contentWrapper.style.justifyContent = 'center';
-            contentWrapper.style.gap = '2rem';
-            contentWrapper.style.height = '100%';
-
-            // Append elements to content wrapper
-            contentWrapper.appendChild(fullscreenLogo);
-            contentWrapper.appendChild(subjectTitleDisplay);
-            contentWrapper.appendChild(fullscreenTimer);
-            contentWrapper.appendChild(fullscreenStartButton);
-
-            // Append wrapper and exit button to fullscreen container
-            fullscreenContainer.appendChild(noMobileIcon);
-            fullscreenContainer.appendChild(exitFullscreenButton);
-            fullscreenContainer.appendChild(contentWrapper);
-
-            // Add to body
-            document.body.appendChild(fullscreenContainer);
-
-            // Update flag
-            fullscreenMode = true;
-
-            // Hide fullscreen button
-            fullscreenButton.style.display = 'none';
-        }
-
-        function exitFullscreen() {
-            if (fullscreenContainer) {
-                document.body.removeChild(fullscreenContainer);
-                fullscreenContainer = null;
-            }
-
-            fullscreenMode = false;
-            fullscreenButton.style.display = 'flex';
-        }
-
-        // Update fullscreen timer when main timer changes
-        const originalUpdateDisplay = updateDisplay;
-        updateDisplay = function (timeInSeconds) {
-            originalUpdateDisplay(timeInSeconds);
-
-            // Also update fullscreen timer if it exists
-            if (fullscreenMode && document.getElementById('fullscreenTimer')) {
-                document.getElementById('fullscreenTimer').textContent = timerDisplay.textContent;
-
-                // Apply warning class if needed
-                if (timeInSeconds <= 10) {
-                    document.getElementById('fullscreenTimer').classList.add('warning');
-                } else {
-                    document.getElementById('fullscreenTimer').classList.remove('warning');
-                }
-
-                // Hide start button if timer is running
-                const fullscreenStartButton = document.getElementById('fullscreenStartButton');
-                if (fullscreenStartButton && isRunning) {
-                    fullscreenStartButton.style.display = 'none';
-                }
-            }
-        };
-
-        // Update the fullscreen start button state when the normal start button state changes
-        const originalSetTimer = setTimer;
-        setTimer = function () {
-            originalSetTimer();
-
-            // Update fullscreen start button if it exists
-            if (fullscreenMode && document.getElementById('fullscreenStartButton')) {
-                document.getElementById('fullscreenStartButton').disabled = false;
-            }
-        };
     </script>
 </body>
 
